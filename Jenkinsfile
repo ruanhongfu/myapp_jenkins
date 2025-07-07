@@ -11,8 +11,10 @@ pipeline {
         stage('Install dependencies') {
             steps {
                 sh '''
+                #!/bin/bash
+                set -e
                 python3 -m venv venv
-                source venv/bin/activate
+                . venv/bin/activate
                 pip install -r requirements.txt
                 '''
             }
@@ -21,7 +23,9 @@ pipeline {
         stage('Run tests') {
             steps {
                 sh '''
-                source venv/bin/activate
+                #!/bin/bash
+                set -e
+                . venv/bin/activate
                 pytest test_app.py
                 '''
             }
@@ -30,7 +34,9 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh '''
-                source venv/bin/activate
+                #!/bin/bash
+                set -e
+                . venv/bin/activate
                 nohup python app.py &
                 '''
             }
